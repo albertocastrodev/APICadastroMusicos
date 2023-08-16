@@ -20,7 +20,6 @@ namespace ApiCadastroMusicos.Controller
             _pessoaAppService = pessoaAppService;
         }
 
-
         //[HttpGet]
         //public ActionResult GetAll()
         //{
@@ -43,32 +42,26 @@ namespace ApiCadastroMusicos.Controller
         //}
 
 
-        [HttpGet("GetById/Pessoa/{id:int}")]
-        public IActionResult GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
         {
-
-            _pessoaAppService.GetById(id);
-            return Ok();
-
+            var pessoa = await _pessoaAppService.GetById(id);
+            return Ok(pessoa);
         }
 
 
         [HttpPost]
-        public IActionResult Post(PessoaRequestDTO pessoaDTO)
+        public IActionResult Post([FromBody] PessoaRequestDTO pessoaDTO)
         {
             _pessoaAppService.Create(pessoaDTO);
             return Ok();
         }
 
-        [HttpPut]
-
-        public IActionResult Update(PessoaDTO pessoaDTO)
+        [HttpPut("{id}")]
+        public IActionResult Put([FromRoute] int id, [FromBody] PessoaRequestDTO pessoaDTO)
         {
-
-            _pessoaAppService.Update(pessoaDTO);
+            _pessoaAppService.Update(id, pessoaDTO);
             return Ok(pessoaDTO);
-
-
         }
     }
 

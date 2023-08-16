@@ -1,6 +1,9 @@
 using ApiCadastroMusico.Context;
+using ApiCadastroMusico.Entites;
 using ApiCadastroMusicos.Application.AppServices;
 using ApiCadastroMusicos.Application.Interfaces;
+using ApiCadastroMusicos.Domain.Repositories;
+using ApiCadastroMusicos.Infra.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -14,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPessoaAppService, PessoaAppService>();
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

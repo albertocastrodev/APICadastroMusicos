@@ -7,7 +7,7 @@ namespace ApiCadastroMusicos.Application.Interfaces
     {
         void Create(PessoaRequestDTO pessoaRequestDTO);
 
-        void GetById (int id);
-        void Update(PessoaDTO pessoaDTO);
+        Task<PessoaDTO> GetById(int id);
+        void Update(int id, PessoaRequestDTO pessoaDTO);
     }
 }
