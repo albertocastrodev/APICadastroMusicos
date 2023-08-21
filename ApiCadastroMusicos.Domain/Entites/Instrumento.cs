@@ -1,21 +1,16 @@
-﻿namespace ApiCadastroMusico.Entites
+﻿using ApiCadastroMusicos.Domain.Entites;
+
+namespace ApiCadastroMusico.Entites
 {
-    public class Instrumento
+    public class Instrumento: Entidade
     {
-    
-    public int Id { get; set; }
+        public string Name { get; set; }
 
-    public string Name { get; set; }
+        public TipoInstrumento TipoInstrumento { get; set; }
 
-    public int TipoInstrumentoId { get; set; }
+        public ICollection<HabilidadeMusical> HabilidadesMusicais { get; init; }
 
-    public TipoInstrumento TipoInstrumento { get; set; }
-
-    public int DadosMusicaisId { get; set; }
-
-    public DadosMusicais DadosMusicais { get; set; }    
-   
-    
+        public IEnumerable<Musico> Musicos => HabilidadesMusicais.Select(x => x.Musico);
     }
 }
 

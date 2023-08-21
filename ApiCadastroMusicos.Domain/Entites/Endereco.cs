@@ -1,10 +1,10 @@
-﻿namespace ApiCadastroMusico.Entites
+﻿using ApiCadastroMusicos.Domain.Entites;
+
+namespace ApiCadastroMusico.Entites
 {
 
-    public class Endereco
+    public class Endereco : Entidade
     {
-        public int Id { get; set; }
-
         public string Logradouro { get; set; }
 
         public string Numero { get; set; }

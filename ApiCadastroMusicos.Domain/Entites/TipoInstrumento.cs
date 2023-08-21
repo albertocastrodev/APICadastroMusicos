@@ -1,10 +1,8 @@
 ﻿namespace ApiCadastroMusico.Entites
 {
-    public class TipoInstrumento
+    public enum TipoInstrumento
     {
-
-        public int Id { get; set; }
-
-        public string Tipo { get; set; }
+        Corda = 1,
+        Sopro = 2
     }
 }

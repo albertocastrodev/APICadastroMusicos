@@ -1,17 +1,17 @@
-﻿namespace ApiCadastroMusico.Entites;
+﻿using ApiCadastroMusicos.Domain.Entites;
 
-public class Telefone
-    {
+namespace ApiCadastroMusico.Entites;
 
+public class Telefone : Entidade
+{
 
-        public int Id { get; set; }
         public string Numero { get; set; }
 
         public int DDD { get; set; }
 
         public int PessoaId { get; set; }
 
-        public Pessoa Pessoa { get; set; }  
+        public Musico Pessoa { get; set; }  
 
 
     }

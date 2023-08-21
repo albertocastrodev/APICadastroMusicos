@@ -10,13 +10,13 @@ namespace ApiCadastroMusico.Context
         {
         }
 
-        public DbSet<Pessoa> Pessoas { get; set; }
+        public DbSet<Musico> Pessoas { get; set; }
 
         public DbSet<Endereco> Enderecos { get; set; }
 
         public DbSet<Telefone> Telefones { get; set; }
 
-        public DbSet<DadosMusicais> DadosMusicais { get; set; }
+        public DbSet<HabilidadeMusical> DadosMusicais { get; set; }
 
 
         public DbSet<Instrumento> Instrumentos { get; set; }

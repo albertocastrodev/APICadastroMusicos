@@ -1,16 +1,14 @@
-﻿namespace ApiCadastroMusico.Entites
-{
-    public class GrupoMusical
-    {
+﻿using ApiCadastroMusicos.Domain.Entites;
 
-        public int Id { get; set; }
+namespace ApiCadastroMusico.Entites
+{
+    public class GrupoMusical : Entidade
+    {
         public string Name { get; set; }
 
-        public int QuantidadeIntegrantes { get; set; }
+        public int QuantidadeIntegrantes => Musicos?.Count ?? 0;
 
-        public int DadosMusicaisId { get; set; }
-
-        public DadosMusicais DadosMusicais { get; set; } 
+        public ICollection<Musico> Musicos { get; init; }
 
     }
 }
