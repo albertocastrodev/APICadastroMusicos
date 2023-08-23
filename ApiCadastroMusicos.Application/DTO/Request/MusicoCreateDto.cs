@@ -23,15 +23,15 @@ namespace ApiCadastroMusicos.Application.DTO.Request
         [Required]
         public DateTime DataNascimento { get; set; }
 
-        [Required]
-        public EnderecoDTO Endereco { get; set; }
+      //  [Required]
+      //  public EnderecoDTO Endereco { get; set; }
 
-     //   public virtual ICollection<GrupoMusical> GruposMusicais { get; set; }
+       // public virtual ICollection<GrupoMusical> GruposMusicais { get; set; }
 
-        public class EnderecoDTO
-        {
+        // public class EnderecoDTO
+      //  {
 
-        }
+       // }
     
     }
 }

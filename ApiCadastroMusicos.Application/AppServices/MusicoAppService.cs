@@ -8,15 +8,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCadastroMusicos.Application.AppServices
 {
-    public class MusicoAppService : IPessoaAppService
+    public class MusicoAppService : IMusicoAppService
     {
         private readonly DbContext _dbContext;
-        private readonly IGenericRepository<Musico> _pessoaRepository;
+        private readonly IGenericRepository<Musico> _musicoRepository;
 
         public MusicoAppService(DbContext dbContext, IGenericRepository<Musico> musicoRepository)
         {
             _dbContext = dbContext;
-            _pessoaRepository = musicoRepository;
+            _musicoRepository = musicoRepository;
+        }
+
+        
+
+
+        public async Task<MusicoDto> GetById(int id)
+        {
+            var musico = await _musicoRepository.GetById(id);
+
+            return new MusicoDto()
+
+            {
+                Nome = musico.Nome,
+                SobreNome = musico.SobreNome,
+                DataCadastro = musico.DataCadastro
+            };
+        }
+
+
+        public void Create(MusicoCreateDto musicoDto)
+        {
+            var musico = new Musico(musicoDto.Nome, musicoDto.SobreNome);
+
+            musico.HabilidadeMusical.AdicionarHabilidadeInstrumental(new Instrumento() { Id = Guid.NewGuid() });
+
+            _dbContext.Set<Musico>().Add(musico);
+            _dbContext.SaveChanges();
         }
 
         //public void Create(PessoaRequestDTO pessoaRequestDTO)
@@ -35,19 +62,6 @@ namespace ApiCadastroMusicos.Application.AppServices
         //}
 
 
-        public async Task<MusicoDto> GetById(int id)
-        {
-            var pessoa = await _pessoaRepository.GetById(id);
-
-            return new MusicoDto()
-
-            {
-                Nome = pessoa.Nome,
-                SobreNome = pessoa.SobreNome,
-                DataCadastro = pessoa.DataCadastro
-            };
-        }
-
         public void Update(int id, PessoaRequestDTO pessoaDTO)
         {
             //var pessoaASerAlterada = _dbContext.Set<Musico>().FirstOrDefault(x => x.Id == id);
@@ -61,15 +75,7 @@ namespace ApiCadastroMusicos.Application.AppServices
             //_dbContext.SaveChanges();
         }
 
-        public void Create(MusicoCreateDto musicoDto)
-        {
-            var musico = new Musico(musicoDto.Nome, musicoDto.SobreNome);
-
-            musico.HabilidadeMusical.AdicionarHabilidadeInstrumental(new Instrumento() { Id = Guid.NewGuid() });
-
-            _dbContext.Set<Musico>().Add(musico);
-            _dbContext.SaveChanges();
-        }
+        
 
     }
 

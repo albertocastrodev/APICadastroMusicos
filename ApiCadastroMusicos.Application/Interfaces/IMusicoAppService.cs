@@ -1,12 +1,13 @@
 ﻿using ApiCadastroMusico.DTO;
+using ApiCadastroMusicos.Application.DTO.Request;
 using ApiCadastroMusicos.DTO;
 
 namespace ApiCadastroMusicos.Application.Interfaces
 {
-    public interface IPessoaAppService: IAppService
+    public interface IMusicoAppService: IAppService
     {
-        void Create(PessoaRequestDTO pessoaRequestDTO);
 
+        void Create(MusicoCreateDto musicoDto);
         Task<MusicoDto> GetById(int id);
         void Update(int id, PessoaRequestDTO pessoaDTO);
     }

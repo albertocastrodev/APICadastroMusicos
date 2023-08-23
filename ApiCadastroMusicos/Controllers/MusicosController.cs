@@ -1,5 +1,6 @@
 ﻿using ApiCadastroMusico.Context;
 using ApiCadastroMusico.DTO;
+using ApiCadastroMusicos.Application.DTO.Request;
 using ApiCadastroMusicos.Application.Interfaces;
 using ApiCadastroMusicos.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +12,13 @@ namespace ApiCadastroMusicos.Controller
 {
     [Route("[controller]")]
     [ApiController]
-    public class PessoaController : ControllerBase
+    public class MusicosController : ControllerBase
     {
-        private readonly IPessoaAppService _pessoaAppService;
+        private readonly IMusicoAppService _musicoAppService;
 
-        public PessoaController(IPessoaAppService pessoaAppService)
+        public MusicosController(IMusicoAppService pessoaAppService)
         {
-            _pessoaAppService = pessoaAppService;
+            _musicoAppService = pessoaAppService;
         }
 
         //[HttpGet]
@@ -45,22 +46,22 @@ namespace ApiCadastroMusicos.Controller
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var pessoa = await _pessoaAppService.GetById(id);
+            var pessoa = await _musicoAppService.GetById(id);
             return Ok(pessoa);
         }
 
 
         [HttpPost]
-        public IActionResult Post([FromBody] PessoaRequestDTO pessoaDTO)
+        public IActionResult Create([FromBody] MusicoCreateDto musicoDto)
         {
-            _pessoaAppService.Create(pessoaDTO);
+            _musicoAppService.Create(musicoDto);
             return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult Put([FromRoute] int id, [FromBody] PessoaRequestDTO pessoaDTO)
         {
-            _pessoaAppService.Update(id, pessoaDTO);
+            _musicoAppService.Update(id, pessoaDTO);
             return Ok(pessoaDTO);
         }
     }

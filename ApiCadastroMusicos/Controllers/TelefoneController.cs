@@ -19,63 +19,63 @@ namespace ApiCadastroMusicos.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult Insert (TelefoneDTO TelefonesDTO)
-        {
+        //[HttpPost]
+        //public IActionResult Insert (TelefoneDTO TelefonesDTO)
+        //{
 
-            var telefones = new Telefone
-            {
-                Id = TelefonesDTO.Id,
-                DDD = TelefonesDTO.DDD,
-                Numero = TelefonesDTO.Numero,
+        //    var telefones = new Telefone
+        //    {
+        //        Id = TelefonesDTO.Id,
+        //        DDD = TelefonesDTO.DDD,
+        //        Numero = TelefonesDTO.Numero,
 
 
-            };
+        //    };
             
-            _context.Telefones.Add(telefones);
-            _context.SaveChanges();
-            return Ok(telefones);
+        //    _context.Telefones.Add(telefones);
+        //    _context.SaveChanges();
+        //    return Ok(telefones);
 
-        }
+        //}
 
-        [HttpGet]
+        //[HttpGet]
 
-        public IActionResult GetAll(TelefoneDTO telefoneDTO)
-        {
+        //public IActionResult GetAll(TelefoneDTO telefoneDTO)
+        //{
 
-            var telefones = new Telefone
-            {
-                Id = telefoneDTO.Id,
-                DDD = telefoneDTO.DDD,
-                Numero = telefoneDTO.Numero,
+        //    var telefones = new Telefone
+        //    {
+        //        Id = telefoneDTO.Id,
+        //        DDD = telefoneDTO.DDD,
+        //        Numero = telefoneDTO.Numero,
 
-            };
+        //    };
             
-            return Ok(telefones);
+        //    return Ok(telefones);
         
-        }
+        //}
         
-        [HttpGet ("GetById/{id:int}")]
+        //[HttpGet ("GetById/{id:int}")]
 
-        public IActionResult GetById(int id) { 
+        //public IActionResult GetById(int id) { 
         
-        var telefone = _context.Telefones.FirstOrDefault (x => x.Id == id);
+        //var telefone = _context.Telefones.FirstOrDefault (x => x.Id == id);
 
-            var TelefonesDTO = new TelefoneDTO
-            {
+        //    var TelefonesDTO = new TelefoneDTO
+        //    {
 
-                Id= telefone.Id,
-                DDD = telefone.DDD,
-                Numero = telefone.Numero,  
-
-
-            };
+        //        Id= telefone.Id,
+        //        DDD = telefone.DDD,
+        //        Numero = telefone.Numero,  
 
 
+        //    };
 
-            return Ok(TelefonesDTO);
+
+
+        //    return Ok(TelefonesDTO);
         
-        }
+        //}
 
 
 

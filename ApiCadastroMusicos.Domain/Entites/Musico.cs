@@ -25,7 +25,7 @@ namespace ApiCadastroMusico.Entites
         public int DadosMusicaisId { get; set; }
         public HabilidadeMusical HabilidadeMusical { get; init; }
 
-
+        // Obrigar a iniciar a classe com esses parâmetros. 
         public Musico(string nome, string sobreNome)
         {
             Nome = nome;
