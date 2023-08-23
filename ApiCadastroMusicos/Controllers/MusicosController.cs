@@ -46,8 +46,9 @@ namespace ApiCadastroMusicos.Controller
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var pessoa = await _musicoAppService.GetById(id);
-            return Ok(pessoa);
+            //var pessoa = await _musicoAppService.GetById(id);
+            //return Ok(pessoa);
+            throw new NotImplementedException();
         }
 
 
@@ -61,8 +62,9 @@ namespace ApiCadastroMusicos.Controller
         [HttpPut("{id}")]
         public IActionResult Put([FromRoute] int id, [FromBody] PessoaRequestDTO pessoaDTO)
         {
-            _musicoAppService.Update(id, pessoaDTO);
-            return Ok(pessoaDTO);
+            //_musicoAppService.Update(id, pessoaDTO);
+            //return Ok(pessoaDTO);
+            throw new NotImplementedException();
         }
     }
 

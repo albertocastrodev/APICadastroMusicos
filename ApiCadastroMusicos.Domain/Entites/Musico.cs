@@ -18,7 +18,7 @@ namespace ApiCadastroMusico.Entites
 
         public Guid EnderecoId { get; set; }
 
-        public Endereco Endereco { get; set; }
+        public Endereco Endereco { get; private set; }
 
         public virtual ICollection<GrupoMusical> GruposMusicais { get; set; }
 
@@ -32,5 +32,22 @@ namespace ApiCadastroMusico.Entites
             SobreNome = sobreNome;
             HabilidadeMusical ??= new(this);
         }
+
+        public void AdicionarGrupoMusical(GrupoMusical grupoMusical)
+        {
+            var musicoJaEstaNoGrupoMusical = GruposMusicais.Any(x => x.Id == grupoMusical.Id);
+
+            if (musicoJaEstaNoGrupoMusical) throw new ApplicationException("Músico já está no grupo musical");
+
+            GruposMusicais.Add(grupoMusical);
+        }
+
+        public void AlterarEndereco(Endereco endereco)
+        {
+            ArgumentNullException.ThrowIfNull(endereco);
+
+            Endereco = endereco;
+        }
+
     }
 }

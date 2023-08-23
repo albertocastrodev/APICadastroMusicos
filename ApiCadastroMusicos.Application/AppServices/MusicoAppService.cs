@@ -12,55 +12,76 @@ namespace ApiCadastroMusicos.Application.AppServices
     {
         private readonly DbContext _dbContext;
         private readonly IGenericRepository<Musico> _musicoRepository;
+        private readonly IGenericRepository<Instrumento> _instrumentoRepository;
+        private readonly IGenericRepository<GrupoMusical> _grupoRepository;
 
-        public MusicoAppService(DbContext dbContext, IGenericRepository<Musico> musicoRepository)
+        public MusicoAppService(DbContext dbContext,
+            IGenericRepository<Musico> musicoRepository,
+            IGenericRepository<Instrumento> instrumentoRepository,
+            IGenericRepository<GrupoMusical> grupoRepository)
         {
             _dbContext = dbContext;
             _musicoRepository = musicoRepository;
+            _instrumentoRepository = instrumentoRepository;
+            _grupoRepository = grupoRepository;
         }
 
-        
-
-
-        public async Task<MusicoDto> GetById(int id)
+        public async Task<MusicoDto> GetById(Guid id)
         {
-            var musico = await _musicoRepository.GetById(id);
+            //var musico = await _musicoRepository.GetById(id);
 
-            return new MusicoDto()
+            //return new MusicoDto()
 
-            {
-                Nome = musico.Nome,
-                SobreNome = musico.SobreNome,
-                DataCadastro = musico.DataCadastro
-            };
+            //{
+            //    Nome = musico.Nome,
+            //    SobreNome = musico.SobreNome,
+            //    DataCadastro = musico.DataCadastro
+            //};
+            throw new NotImplementedException();
         }
 
 
-        public void Create(MusicoCreateDto musicoDto)
+        public async Task Create(MusicoCreateDto musicoDto)
         {
+            if (musicoDto.GruposMusicais.Count > 3) 
+                throw new ApplicationException("No máximo 3 grupos musicais são permitidos.");
+
             var musico = new Musico(musicoDto.Nome, musicoDto.SobreNome);
 
-            musico.HabilidadeMusical.AdicionarHabilidadeInstrumental(new Instrumento() { Id = Guid.NewGuid() });
+            var instrumentos = await _instrumentoRepository.GetAll();
+
+            foreach (var instrumentoId in musicoDto.Instrumentos.Distinct())
+            {
+                var instrumentoRecord = instrumentos.FirstOrDefault(x => x.Id == instrumentoId);
+
+                var instrumentoNaoExiste = instrumentoRecord is null;
+
+                if (instrumentoNaoExiste) throw new ApplicationException("Instrumento informado não existe.");
+
+                musico.HabilidadeMusical.AdicionarHabilidadeInstrumental(instrumentoRecord);
+            }
+
+            foreach (var grupoMusicalId in musicoDto.GruposMusicais.Distinct())
+            {
+                var grupoMusicalRecord = await _grupoRepository.GetById(grupoMusicalId);
+
+                var grupoMusicalNaoExiste = grupoMusicalRecord is null;
+
+                if (grupoMusicalNaoExiste) throw new ApplicationException("Grupo musical informado não existe.");
+
+                musico.AdicionarGrupoMusical(grupoMusicalRecord);
+            }
+
+            musico.HabilidadeMusical.LeituraDeCifra = musicoDto.LeituraDeCifra;
+            musico.HabilidadeMusical.LeituraDePartitura = musicoDto.LeituraDePartitura;
+            musico.DataNascimento = musicoDto.DataNascimento;
+
+            //todo: fazer endereço
+            //musico.Endereco(new Endereco(musico, musicoDto.))
 
             _dbContext.Set<Musico>().Add(musico);
             _dbContext.SaveChanges();
         }
-
-        //public void Create(PessoaRequestDTO pessoaRequestDTO)
-        //{
-        //    var pessoa = new Musico
-        //    {
-        //        Nome = pessoaRequestDTO.Nome,
-        //        SobreNome = pessoaRequestDTO.SobreNome,
-        //        DataCadastro = pessoaRequestDTO.DataNascimento,
-        //        EnderecoId = pessoaRequestDTO.EnderecoId
-        //    };
-
-
-        //    _dbContext.Set<Musico>().Add(pessoa);
-        //    _dbContext.SaveChanges();
-        //}
-
 
         public void Update(int id, PessoaRequestDTO pessoaDTO)
         {
@@ -74,10 +95,6 @@ namespace ApiCadastroMusicos.Application.AppServices
             //_dbContext.Set<Musico>().Update(pessoaASerAlterada);
             //_dbContext.SaveChanges();
         }
-
-        
-
     }
-
 }
 
