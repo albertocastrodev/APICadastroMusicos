@@ -8,46 +8,46 @@ namespace ApiCadastroMusico.Entites
 
         public string SobreNome { get; set; }
 
-        public virtual ICollection<Telefone> Telefones { get; set; }
+        public virtual ICollection<Telefone> Telefones { get; set; } = new List<Telefone>();    
 
         public DateTime DataCadastro { get; set; } = DateTime.Now;
 
         public DateTime DataNascimento { get; set; }
 
         //public int Idade => DateTime.Now - DataNascimento
-
+        
         public Guid EnderecoId { get; set; }
 
-        public Endereco Endereco { get; private set; }
+        public Endereco Endereco { get; private set; } 
 
         public virtual ICollection<GrupoMusical> GruposMusicais { get; set; }
 
-        public int DadosMusicaisId { get; set; }
+        public Guid HabilidadeMusicalId { get; init; }
         public HabilidadeMusical HabilidadeMusical { get; init; }
 
+
         // Obrigar a iniciar a classe com esses parâmetros. 
-        public Musico(string nome, string sobreNome)
+        public Musico(string nome, string sobreNome, Endereco endereco)
         {
             Nome = nome;
             SobreNome = sobreNome;
             HabilidadeMusical ??= new(this);
+            Endereco = endereco;
         }
+        public Musico() { }
 
         public void AdicionarGrupoMusical(GrupoMusical grupoMusical)
         {
             var musicoJaEstaNoGrupoMusical = GruposMusicais.Any(x => x.Id == grupoMusical.Id);
 
             if (musicoJaEstaNoGrupoMusical) throw new ApplicationException("Músico já está no grupo musical");
-
+            
             GruposMusicais.Add(grupoMusical);
         }
 
-        public void AlterarEndereco(Endereco endereco)
+        public void AdicionarTelefone(Telefone telefone)
         {
-            ArgumentNullException.ThrowIfNull(endereco);
-
-            Endereco = endereco;
+            Telefones.Add(telefone);
         }
-
     }
 }

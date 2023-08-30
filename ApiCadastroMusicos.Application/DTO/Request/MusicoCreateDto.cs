@@ -1,4 +1,5 @@
-﻿using ApiCadastroMusico.Entites;
+﻿using ApiCadastroMusico;
+using ApiCadastroMusico.Entites;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApiCadastroMusicos.Application.DTO.Request
@@ -12,7 +13,7 @@ namespace ApiCadastroMusicos.Application.DTO.Request
         public string SobreNome { get; set; }
 
         [Required]
-        public virtual ICollection<Telefone> Telefones { get; set; }
+        public virtual ICollection<TelefoneDTO> Telefones { get; set; }
 
         [Required]
         public DateTime DataNascimento { get; set; }

@@ -18,6 +18,7 @@ namespace ApiCadastroMusicos.Controller
 
         public MusicosController(IMusicoAppService pessoaAppService)
         {
+
             _musicoAppService = pessoaAppService;
         }
 
@@ -53,9 +54,9 @@ namespace ApiCadastroMusicos.Controller
 
 
         [HttpPost]
-        public IActionResult Create([FromBody] MusicoCreateDto musicoDto)
-        {
-            _musicoAppService.Create(musicoDto);
+        public async Task <IActionResult> Create([FromBody] MusicoCreateDto musicoDto)
+        {   
+           await _musicoAppService.Create(musicoDto);
             return Ok();
         }
 

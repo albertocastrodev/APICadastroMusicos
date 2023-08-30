@@ -8,7 +8,7 @@ namespace ApiCadastroMusico
     {
 
 
-        public int Id { get; set; }
+        
         public string Numero { get; set; }
 
         public int DDD { get; set; }

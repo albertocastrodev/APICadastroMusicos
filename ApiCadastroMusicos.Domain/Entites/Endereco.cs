@@ -7,10 +7,8 @@ namespace ApiCadastroMusico.Entites
     {
         public string Logradouro { get; set; }
 
-        public Endereco(Musico musico, string logradouro, string numero, string bairro, string cidade, string cep, string uF)
+        public Endereco(string logradouro, string numero, string bairro, string cidade, string cep, string uF)
         {
-            ArgumentNullException.ThrowIfNull(musico);
-
             ArgumentNullException.ThrowIfNull(logradouro);
             ArgumentNullException.ThrowIfNull(numero);
             ArgumentNullException.ThrowIfNull(bairro);
@@ -18,15 +16,15 @@ namespace ApiCadastroMusico.Entites
             ArgumentNullException.ThrowIfNull(cep);
             ArgumentNullException.ThrowIfNull(uF);
 
-            Musico = musico;
-
             Logradouro = logradouro;
             Numero = numero;
             Bairro = bairro;
             Cidade = cidade;
             Cep = cep;
+           
             UF = uF;
         }
+        public HabilidadeMusical() { }
 
         public string Numero { get; private set; }
 
@@ -40,5 +38,23 @@ namespace ApiCadastroMusico.Entites
 
         public Musico Musico { get; private set; }
         public Guid MusicoId { get; private set; }
+
+
+        public Endereco AlterarNumero(string numero)
+        {
+            Numero = numero;
+            return this;
+        }
+
+        public Endereco AlterarBairro(string bairro)
+        {
+            Bairro = bairro;
+            return this;
+        }
+
+
     }
+
+
+
 }

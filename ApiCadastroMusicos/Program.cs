@@ -36,6 +36,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//garantir que o banco seja criado
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
