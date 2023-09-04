@@ -13,7 +13,7 @@ namespace ApiCadastroMusicos.Application.AppServices
         private readonly DbContext _dbContext;
         private readonly IGenericRepository<Musico> _musicoRepository;
         private readonly IGenericRepository<Instrumento> _instrumentoRepository;
-        private readonly IGenericRepository<GrupoMusical> _grupoRepository;
+        private readonly IGenericRepository<GrupoMusical> _grupoMusicalRepository;
         private readonly IGenericRepository<Endereco> _enderecoRepository;
         private readonly IGenericRepository<Telefone> _telefoneRepository;
 
@@ -21,39 +21,45 @@ namespace ApiCadastroMusicos.Application.AppServices
 
             IGenericRepository<Musico> musicoRepository,
             IGenericRepository<Instrumento> instrumentoRepository,
-            IGenericRepository<Endereco> enderecorepository,
+            IGenericRepository<Endereco> enderecoRepository,
             IGenericRepository<GrupoMusical> grupoRepository,
-            IGenericRepository<Telefone> telefoneResitory)
+            IGenericRepository<Telefone> telefoneRepository)
 
 
         {
             _dbContext = dbContext;
             _musicoRepository = musicoRepository;
             _instrumentoRepository = instrumentoRepository;
-            _grupoRepository = grupoRepository;
+            _grupoMusicalRepository = grupoRepository;
         }
 
 
-        //public async Task<MusicoDto> Get()
-        //{
-        //    var musicoAchado = await _musicoRepository.GetAll();
+        public async Task<List<MusicoDto>> Get()
+        {
+            var query = _musicoRepository.GetAllAsQueryable();
 
-        //    List<MusicoDto> musicos = new List<MusicoDto>();
+            var musicosAchados = query
+                .Include(x => x.Telefones)
+                .Include(x => x.Endereco);
 
-        //    foreach (var musico in musicoAchado)
-        //    {
-        //        var musicoDTO = new MusicoDto()
-        //        {
+            List<MusicoDto> musicos = new();
 
+            foreach (var musico in musicosAchados)
+            {
+                var musicoDTO = new MusicoDto()
+                {
+                     DataCadastro = musico.DataCadastro,
+                     DataNascimento = musico.DataNascimento,
+                     Nome = musico.Nome,
+                     SobreNome = musico.SobreNome,
+                     Telefones = musico.Telefones
+                };
 
-        //        };
+                musicos.Add(musicoDTO);
+            }
 
-
-
-        //    }
-
-
-        //}
+            return musicos;
+        }
 
         public async Task<MusicoDto> GetById(Guid id)
         {
@@ -69,7 +75,6 @@ namespace ApiCadastroMusicos.Application.AppServices
 
             return musicoDT0;
         }
-
 
         public async Task Create(MusicoCreateDto musicoDto)
         {
@@ -102,36 +107,22 @@ namespace ApiCadastroMusicos.Application.AppServices
 
                     musico.HabilidadeMusical.AdicionarHabilidadeInstrumental(instrumentoRecord);
 
-                    musico.HabilidadeMusical.Instrumentos.Add(instrumentoRecord);
-
-                    musico.HabilidadeMusical.Instrumentos = new List<Instrumento>();
-
-
                 }
-
-                //ADD GRUPO MUSICAL
             }
 
 
-
-            if (musicoDto.GruposMusicais.Count() > 0)
-
+            if (musicoDto.GruposMusicais.Any())
             {
-
-
                 foreach (var grupoMusicalId in musicoDto.GruposMusicais.Distinct())
                 {
-                    var grupoMusicalRecord = await _grupoRepository.GetById(grupoMusicalId);
+                    var grupoMusicalRecord = await _grupoMusicalRepository.GetById(grupoMusicalId);
 
                     var grupoMusicalNaoExiste = grupoMusicalRecord is null;
 
                     if (grupoMusicalNaoExiste) throw new ApplicationException("Grupo musical informado não existe.");
 
                     musico.AdicionarGrupoMusical(grupoMusicalRecord);
-
-
                 }
-
             }
 
             //ADD HABILIDADES MUSICAIS
@@ -139,7 +130,6 @@ namespace ApiCadastroMusicos.Application.AppServices
             musico.HabilidadeMusical.LeituraDeCifra = musicoDto.LeituraDeCifra;
             musico.HabilidadeMusical.LeituraDePartitura = musicoDto.LeituraDePartitura;
             musico.DataNascimento = musicoDto.DataNascimento;
-
 
             //ADD TELEFONE
 
@@ -154,25 +144,10 @@ namespace ApiCadastroMusicos.Application.AppServices
                 telefone.DDD = telefonedto.DDD;
                 telefone.Numero = telefonedto.Numero;
                 musico.AdicionarTelefone(telefone);
-
             }
 
-
-            _dbContext.Set<Musico>().Add(musico);
-            _dbContext.SaveChanges();
-
-            // public void Update(int id, PessoaRequestDTO pessoaDTO)
-            // {
-            //var pessoaASerAlterada = _dbContext.Set<Musico>().FirstOrDefault(x => x.Id == id);
-
-            //if (pessoaASerAlterada is null) return;
-
-            //pessoaASerAlterada.Nome = pessoaDTO.Nome;
-            //pessoaASerAlterada.Idade = pessoaDTO.Idade;
-
-            //_dbContext.Set<Musico>().Update(pessoaASerAlterada);
-            //_dbContext.SaveChanges();
-            //}
+            await _dbContext.Set<Musico>().AddAsync(musico);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

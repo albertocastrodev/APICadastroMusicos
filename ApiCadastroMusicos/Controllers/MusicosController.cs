@@ -16,33 +16,17 @@ namespace ApiCadastroMusicos.Controller
     {
         private readonly IMusicoAppService _musicoAppService;
 
-        public MusicosController(IMusicoAppService pessoaAppService)
+        public MusicosController(IMusicoAppService musicoAppService)
         {
-
-            _musicoAppService = pessoaAppService;
+            _musicoAppService = musicoAppService;
         }
 
-        //[HttpGet]
-        //public ActionResult GetAll()
-        //{
-        //    var pessoaDTO = _context.Pessoas.Include(c => c.Telefones).Include(c => c.Endereco).Select(pessoa => new PessoaDTO
-        //    {
-
-        //        Nome = pessoa.Nome,
-        //        SobreNome = pessoa.SobreNome,
-        //        Idade = pessoa.Idade,
-        //        DataCadastro = pessoa.DataCadastro,
-        //    });
-
-        //    if (pessoaDTO != null)
-        //    {
-
-        //        return NotFound("Nenhuma pessoa cadastrada");
-        //    }
-        //    return Ok(pessoaDTO);
-
-        //}
-
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var musicos = await _musicoAppService.Get();
+            return Ok(musicos);
+        }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
@@ -54,9 +38,9 @@ namespace ApiCadastroMusicos.Controller
 
 
         [HttpPost]
-        public async Task <IActionResult> Create([FromBody] MusicoCreateDto musicoDto)
-        {   
-           await _musicoAppService.Create(musicoDto);
+        public async Task<IActionResult> Create([FromBody] MusicoCreateDto musicoDto)
+        {
+            await _musicoAppService.Create(musicoDto);
             return Ok();
         }
 

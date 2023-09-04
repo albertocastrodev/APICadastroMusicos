@@ -1,4 +1,5 @@
 ﻿using ApiCadastroMusicos.Domain.Entites;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiCadastroMusico.Entites
 {
@@ -24,7 +25,7 @@ namespace ApiCadastroMusico.Entites
            
             UF = uF;
         }
-        public HabilidadeMusical() { }
+        public Endereco() { }
 
         public string Numero { get; private set; }
 
@@ -37,8 +38,6 @@ namespace ApiCadastroMusico.Entites
         public string UF { get; private set; }
 
         public Musico Musico { get; private set; }
-        public Guid MusicoId { get; private set; }
-
 
         public Endereco AlterarNumero(string numero)
         {

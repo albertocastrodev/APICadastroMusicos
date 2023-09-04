@@ -8,7 +8,7 @@ namespace ApiCadastroMusicos.Application.Interfaces
     {
 
         Task Create(MusicoCreateDto musicoDto);
-        //Task<M> GetById(Guid id);
+        Task<List<MusicoDto>> Get();
         //void Update(int id, PessoaRequestDTO pessoaDTO);
     }
 }

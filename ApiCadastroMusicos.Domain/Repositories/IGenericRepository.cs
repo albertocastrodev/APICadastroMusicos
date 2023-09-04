@@ -10,6 +10,7 @@ namespace ApiCadastroMusicos.Domain.Repositories
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<List<TEntity>> GetAll();
+        IQueryable<TEntity> GetAllAsQueryable();
         ValueTask<TEntity> GetById(Guid id);
     }
 }

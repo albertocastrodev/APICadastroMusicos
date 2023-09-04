@@ -19,7 +19,15 @@ namespace ApiCadastroMusicos.Infra.Database.Repositories
 
         public Task<List<TEntity>> GetAll()
         {
-            return _dbContext.Set<TEntity>().ToListAsync();
+            return _dbContext
+                .Set<TEntity>()
+                .ToListAsync();
+        }
+        public IQueryable<TEntity> GetAllAsQueryable()
+        {
+            return _dbContext
+                .Set<TEntity>()
+                .AsQueryable();
         }
     }
 }

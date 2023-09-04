@@ -1,4 +1,5 @@
 ﻿using ApiCadastroMusicos.Domain.Entites;
+using System.Runtime.Serialization;
 
 namespace ApiCadastroMusico.Entites
 {

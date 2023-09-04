@@ -1,4 +1,6 @@
 ﻿using ApiCadastroMusicos.Domain.Entites;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiCadastroMusico.Entites
 {
@@ -18,9 +20,9 @@ namespace ApiCadastroMusico.Entites
         
         public Guid EnderecoId { get; set; }
 
-        public Endereco Endereco { get; private set; } 
+        public Endereco Endereco { get; private set; }
 
-        public virtual ICollection<GrupoMusical> GruposMusicais { get; set; }
+        public virtual ICollection<GrupoMusical> GruposMusicais { get; set; } = new List<GrupoMusical>();
 
         public Guid HabilidadeMusicalId { get; init; }
         public HabilidadeMusical HabilidadeMusical { get; init; }
