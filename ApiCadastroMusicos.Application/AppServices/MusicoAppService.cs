@@ -36,11 +36,24 @@ namespace ApiCadastroMusicos.Application.AppServices
 
         //public async Task<MusicoDto> Get()
         //{
-        //     var musico = await _musicoRepository.GetAll();
+        //    var musicoAchado = await _musicoRepository.GetAll();
+
+        //    List<MusicoDto> musicos = new List<MusicoDto>();
+
+        //    foreach (var musico in musicoAchado)
+        //    {
+        //        var musicoDTO = new MusicoDto()
+        //        {
+
+
+        //        };
 
 
 
-        // }
+        //    }
+
+
+        //}
 
         public async Task<MusicoDto> GetById(Guid id)
         {
@@ -70,14 +83,18 @@ namespace ApiCadastroMusicos.Application.AppServices
 
             var musico = new Musico(musicoDto.Nome, musicoDto.SobreNome, endereco); // criando um novo músico e passando os paramêtros pelo construtor 
 
+
+            // ADD INSTRUMENTO
+
+
             if (musicoDto.Instrumentos.Count() > 0)
 
             {
-                var instrumentos = await _instrumentoRepository.GetAll(); // Trazendo todos os intrumentos do Banco pra memória 
+                var instrumentosDoBanco = await _instrumentoRepository.GetAll(); // Trazendo todos os intrumentos do Banco pra memória 
 
                 foreach (var instrumentoId in musicoDto.Instrumentos.Distinct()) // Iterando sobre a lista de instrumentos  // Distinc ilimina todas as duplicidades
                 {
-                    var instrumentoRecord = instrumentos.FirstOrDefault(x => x.Id == instrumentoId); // verificando se o instrumento Id é igual ao id do instrumento recebido no DTO
+                    var instrumentoRecord = instrumentosDoBanco.FirstOrDefault(x => x.Id == instrumentoId); // verificando se o instrumento Id é igual ao id do instrumento recebido no DTO
 
                     var instrumentoNaoExiste = instrumentoRecord is null;
 
@@ -92,12 +109,13 @@ namespace ApiCadastroMusicos.Application.AppServices
 
                 }
 
+                //ADD GRUPO MUSICAL
             }
 
 
 
             if (musicoDto.GruposMusicais.Count() > 0)
-            
+
             {
 
 
@@ -111,16 +129,24 @@ namespace ApiCadastroMusicos.Application.AppServices
 
                     musico.AdicionarGrupoMusical(grupoMusicalRecord);
 
+
                 }
 
             }
+
+            //ADD HABILIDADES MUSICAIS
 
             musico.HabilidadeMusical.LeituraDeCifra = musicoDto.LeituraDeCifra;
             musico.HabilidadeMusical.LeituraDePartitura = musicoDto.LeituraDePartitura;
             musico.DataNascimento = musicoDto.DataNascimento;
 
 
+            //ADD TELEFONE
 
+            //Recebe DTO 
+            //Cria um novo Objeto Telefone 
+            //Passa as informações de DTO para o Objeto 
+            // Chama o método adicionar telefone
 
             foreach (var telefonedto in musicoDto.Telefones)
             {
