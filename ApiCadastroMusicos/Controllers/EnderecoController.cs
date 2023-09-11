@@ -18,40 +18,5 @@ namespace ApiCadastroMusicos.Controllers
             _context = context;
 
         }
-
-        //    [HttpPost]
-        //    public IActionResult Post(EnderecoDTO enderecoDTO)
-
-        //    {
-
-        //        var endereco = new Endereco
-        //        {
-        //            Id = enderecoDTO.Id,
-        //            Bairro = enderecoDTO.Bairro,
-        //            Numero = enderecoDTO.Numero,
-        //            Cep = enderecoDTO.Cep,
-        //            UF = enderecoDTO.UF,
-        //            Cidade = enderecoDTO.Cidade,
-        //            Logradouro = enderecoDTO.Logradouro,
-
-        //        };
-
-        //        _context.Enderecos.Add(endereco);
-        //        _context.SaveChanges();
-        //        return Ok(endereco);
-        //    }
-
-
-        //    [HttpGet("GetById/Endereco/{id:int}")]
-        //    public IActionResult GetById(int id)
-        //    {
-        //        var endereco = _context.Enderecos.FirstOrDefault(x => x.Id == id);
-        //        return Ok(endereco);
-        //    }
-
-
-        //}
-
-
     }
 }
