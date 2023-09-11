@@ -32,6 +32,7 @@ namespace ApiCadastroMusicos.Application.AppServices
             _instrumentoRepository = instrumentoRepository;
             _grupoMusicalRepository = grupoRepository;
             _enderecoRepository = enderecoRepository;
+            _telefoneRepository = telefoneRepository;
         }
 
 
@@ -105,16 +106,12 @@ namespace ApiCadastroMusicos.Application.AppServices
 
             var telefonesAchados = await _telefoneRepository.GetAllAsQueryable().Where(x => x.MusicoId == musicoId).ToListAsync();
 
-
             foreach (var telefone in telefonesAchados)
             {
-
-
                 var telefoneDto = new TelefoneDTO()
                 {
                     DDD = telefone.DDD,
-                    Numero = telefone.Numero
-
+                    Numero = telefone.Numero                    
                 };
 
                 telefones.Add(telefoneDto);
