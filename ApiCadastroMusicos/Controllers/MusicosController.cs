@@ -28,12 +28,32 @@ namespace ApiCadastroMusicos.Controller
             return Ok(musicos);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
         {
-            //var pessoa = await _musicoAppService.GetById(id);
-            //return Ok(pessoa);
-            throw new NotImplementedException();
+            var musico = await _musicoAppService.GetById(id);
+
+            if (musico is null) return NotFound();
+
+            return Ok(musico);
+        }
+
+        [HttpGet("{musicoId:guid}/endereco")]
+        public async Task<IActionResult> GetEnderecos(Guid musicoId)
+        {
+            var endereco = await _musicoAppService.GetEndereco(musicoId);
+
+            if (endereco is null) return NotFound();
+
+            return Ok(endereco);
+        }
+
+        [HttpGet("{musicoId:guid}/telefones")]
+        public async Task<IActionResult> GetTelefones(Guid musicoId)
+        {
+            var enderecos = await _musicoAppService.GetEndereco(musicoId);
+
+            return Ok(enderecos);
         }
 
 

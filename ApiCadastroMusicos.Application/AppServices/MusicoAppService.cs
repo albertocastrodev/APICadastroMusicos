@@ -25,34 +25,31 @@ namespace ApiCadastroMusicos.Application.AppServices
             IGenericRepository<GrupoMusical> grupoRepository,
             IGenericRepository<Telefone> telefoneRepository)
 
-
         {
             _dbContext = dbContext;
             _musicoRepository = musicoRepository;
             _instrumentoRepository = instrumentoRepository;
             _grupoMusicalRepository = grupoRepository;
+            _enderecoRepository = enderecoRepository;
         }
 
 
-        public async Task<List<MusicoDto>> Get()
+        public async Task<List<MusicoGetDto>> Get()
         {
-            var query = _musicoRepository.GetAllAsQueryable();
+            var musicosAchados = await _musicoRepository.GetAllAsQueryable().ToListAsync();
 
-            var musicosAchados = query
-                .Include(x => x.Telefones)
-                .Include(x => x.Endereco);
 
-            List<MusicoDto> musicos = new();
+            List<MusicoGetDto> musicos = new();
 
             foreach (var musico in musicosAchados)
             {
-                var musicoDTO = new MusicoDto()
+                var musicoDTO = new MusicoGetDto()
                 {
-                     DataCadastro = musico.DataCadastro,
-                     DataNascimento = musico.DataNascimento,
-                     Nome = musico.Nome,
-                     SobreNome = musico.SobreNome,
-                     Telefones = musico.Telefones
+                    Id = musico.Id,
+                    DataCadastro = musico.DataCadastro,
+                    DataNascimento = musico.DataNascimento,
+                    Nome = musico.Nome,
+                    SobreNome = musico.SobreNome
                 };
 
                 musicos.Add(musicoDTO);
@@ -61,19 +58,43 @@ namespace ApiCadastroMusicos.Application.AppServices
             return musicos;
         }
 
-        public async Task<MusicoDto> GetById(Guid id)
+        public async Task<MusicoGetDto> GetById(Guid id)
         {
             var musico = await _musicoRepository.GetById(id);
 
-            var musicoDT0 = new MusicoDto()
+            if (musico is null) return null;
 
+            var musicoDTO = new MusicoGetDto()
             {
+                Id = musico.Id,
+                DataCadastro = musico.DataCadastro,
+                DataNascimento = musico.DataNascimento,
                 Nome = musico.Nome,
-                SobreNome = musico.SobreNome,
-                DataCadastro = musico.DataCadastro
+                SobreNome = musico.SobreNome
             };
 
-            return musicoDT0;
+            return musicoDTO;
+        }
+
+        public async Task<EnderecoDTO> GetEndereco(Guid musicoId)
+        {
+            var endereco = await _enderecoRepository
+                .GetAllAsQueryable()
+                .Include(x => x.Musico)
+                .FirstOrDefaultAsync(x => x.Musico.Id == musicoId);
+
+
+                var enderecoDto = new EnderecoDTO
+                {
+                    Bairro = endereco.Bairro,
+                    Cep = endereco.Cep,
+                    Cidade = endereco.Cidade,
+                    Logradouro = endereco.Logradouro,
+                    Numero = endereco.Numero,
+                    UF = endereco.UF
+                };
+
+            return enderecoDto;
         }
 
         public async Task Create(MusicoCreateDto musicoDto)
