@@ -1,4 +1,5 @@
-﻿using ApiCadastroMusico.DTO;
+﻿using ApiCadastroMusico;
+using ApiCadastroMusico.DTO;
 using ApiCadastroMusico.Entites;
 using ApiCadastroMusicos.Application.DTO.Request;
 using ApiCadastroMusicos.Application.Interfaces;
@@ -84,18 +85,45 @@ namespace ApiCadastroMusicos.Application.AppServices
                 .FirstOrDefaultAsync(x => x.Musico.Id == musicoId);
 
 
-                var enderecoDto = new EnderecoDTO
-                {
-                    Bairro = endereco.Bairro,
-                    Cep = endereco.Cep,
-                    Cidade = endereco.Cidade,
-                    Logradouro = endereco.Logradouro,
-                    Numero = endereco.Numero,
-                    UF = endereco.UF
-                };
+            var enderecoDto = new EnderecoDTO
+            {
+                Bairro = endereco.Bairro,
+                Cep = endereco.Cep,
+                Cidade = endereco.Cidade,
+                Logradouro = endereco.Logradouro,
+                Numero = endereco.Numero,
+                UF = endereco.UF
+            };
 
             return enderecoDto;
         }
+
+
+        public async Task<List<TelefoneDTO>> GetTelefones(Guid musicoId)
+        {
+            var telefones = new List<TelefoneDTO>();
+
+            var telefonesAchados = await _telefoneRepository.GetAllAsQueryable().Where(x => x.MusicoId == musicoId).ToListAsync();
+
+
+            foreach (var telefone in telefonesAchados)
+            {
+
+
+                var telefoneDto = new TelefoneDTO()
+                {
+                    DDD = telefone.DDD,
+                    Numero = telefone.Numero
+
+                };
+
+                telefones.Add(telefoneDto);
+            }
+
+
+            return telefones;
+        }
+
 
         public async Task Create(MusicoCreateDto musicoDto)
         {

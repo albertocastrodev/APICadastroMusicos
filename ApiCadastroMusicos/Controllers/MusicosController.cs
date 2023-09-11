@@ -48,12 +48,14 @@ namespace ApiCadastroMusicos.Controller
             return Ok(endereco);
         }
 
-        [HttpGet("{musicoId:guid}/telefones")]
-        public async Task<IActionResult> GetTelefones(Guid musicoId)
-        {
-            var enderecos = await _musicoAppService.GetEndereco(musicoId);
 
-            return Ok(enderecos);
+
+        [HttpGet("{musicoId:guid}/telefones")]
+        public async Task<IActionResult> GetTelefones (Guid musicoId)
+        {
+            var telefones = await _musicoAppService.GetTelefones(musicoId);
+
+            return Ok(telefones);
         }
 
 

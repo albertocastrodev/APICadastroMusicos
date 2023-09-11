@@ -1,4 +1,5 @@
-﻿using ApiCadastroMusico.DTO;
+﻿using ApiCadastroMusico;
+using ApiCadastroMusico.DTO;
 using ApiCadastroMusicos.Application.DTO.Request;
 using ApiCadastroMusicos.DTO;
 
@@ -11,5 +12,6 @@ namespace ApiCadastroMusicos.Application.Interfaces
         Task<List<MusicoGetDto>> Get();
         Task<MusicoGetDto> GetById(Guid id);
         Task<EnderecoDTO> GetEndereco(Guid musicoId);
+        Task<List<TelefoneDTO>> GetTelefones(Guid musicoId);
     }
 }
