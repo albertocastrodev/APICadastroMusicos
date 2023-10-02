@@ -48,8 +48,6 @@ namespace ApiCadastroMusicos.Controller
             return Ok(endereco);
         }
 
-
-
         [HttpGet("{musicoId:guid}/telefones")]
         public async Task<IActionResult> GetTelefones (Guid musicoId)
         {
@@ -57,7 +55,6 @@ namespace ApiCadastroMusicos.Controller
 
             return Ok(telefones);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] MusicoCreateDto musicoDto)
